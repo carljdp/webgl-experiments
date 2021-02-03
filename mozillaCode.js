@@ -126,14 +126,13 @@ function buildProgramInfoObj(gl, shaderProgram) {
 
 
 // Draw the scene
-function drawScene(gl, programInfo, buffers) {
+function drawScene(gl, programInfo, buffers, squareRotation) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);  // Clear to black, fully opaque
     gl.clearDepth(1.0);                 // Clear everything
     gl.enable(gl.DEPTH_TEST);           // Enable depth testing
     gl.depthFunc(gl.LEQUAL);            // Near things obscure far things
 
     // Clear the canvas before we start drawing on it.
-
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // Create a perspective matrix, a special matrix that is
@@ -142,7 +141,6 @@ function drawScene(gl, programInfo, buffers) {
     // ratio that matches the display size of the canvas
     // and we only want to see objects between 0.1 units
     // and 100 units away from the camera.
-
     const fieldOfView = 45 * Math.PI / 180;   // in radians
     const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
     const zNear = 0.1;
@@ -163,10 +161,17 @@ function drawScene(gl, programInfo, buffers) {
 
     // Now move the drawing position a bit to where we want to
     // start drawing the square.
-
-    mat4.translate(modelViewMatrix,     // destination matrix
-                    modelViewMatrix,     // matrix to translate
-                    [-0.0, 0.0, -6.0]);  // amount to translate
+    mat4.translate(
+        modelViewMatrix,     // destination matrix
+        modelViewMatrix,     // matrix to translate
+        [-0.0, 0.0, -6.0]    // amount to translate
+    )
+    mat4.rotate(
+        modelViewMatrix,  // destination matrix
+        modelViewMatrix,  // matrix to rotate
+        squareRotation,   // amount to rotate in radians
+        [0, 0, 1]         // axis to rotate around
+        )
 
     // Tell WebGL how to pull out the positions from the position
     // buffer into the vertexPosition attribute.
@@ -211,11 +216,9 @@ function drawScene(gl, programInfo, buffers) {
 
 
     // Tell WebGL to use our program when drawing
-
     gl.useProgram(programInfo.program);
 
     // Set the shader uniforms
-
     gl.uniformMatrix4fv(
         programInfo.uniformLocations.projectionMatrix,
         false,
@@ -230,6 +233,8 @@ function drawScene(gl, programInfo, buffers) {
         const vertexCount = 4;
         gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
     }
+
+    
 }
 
 export {

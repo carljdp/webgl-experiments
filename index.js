@@ -7,7 +7,13 @@ import {
   buildProgramInfoObj
 } from './mozillaCode'
 
+
+
+
 function main() {
+
+  var squareRotation = 0.0;
+
   const canvas = document.querySelector("#glcanvas")
 
   // Initialize the GL context
@@ -32,8 +38,22 @@ function main() {
   // objects we'll be drawing.
   const buffers = initBuffers(gl)
 
-  // Draw the scene
-  drawScene(gl, programInfo, buffers)
+  var then = 0;
+
+  // Draw the scene repeatedly
+  function render(now) {
+    now *= 0.001;  // convert to seconds
+    const deltaTime = now - then;
+    then = now;
+
+    drawScene(gl, programInfo, buffers, squareRotation);
+    squareRotation += deltaTime
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+
 }
 
 window.onload = main
