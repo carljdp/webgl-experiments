@@ -1,0 +1,19 @@
+{
+  "name": "webgl-experiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carljdp/webgl-experiments.git"
+  },
+  "author": "carljdp@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/carljdp/webgl-experiments/issues"
+  },
+  "homepage": "https://github.com/carljdp/webgl-experiments#readme"
+}
