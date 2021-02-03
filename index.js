@@ -3,7 +3,8 @@ import {
   fsSource,
   initShaderProgram, 
   initBuffers, 
-  drawScene
+  drawScene,
+  buildProgramInfoObj
 } from './mozillaCode'
 
 function main() {
@@ -25,16 +26,7 @@ function main() {
   // Collect all the info needed to use the shader program.
   // Look up which attribute our shader program is using
   // for aVertexPosition and look up uniform locations.
-  const programInfo = {
-    program: shaderProgram,
-    attribLocations: {
-      vertexPosition: gl.getAttribLocation(shaderProgram, 'aVertexPosition'),
-    },
-    uniformLocations: {
-      projectionMatrix: gl.getUniformLocation(shaderProgram, 'uProjectionMatrix'),
-      modelViewMatrix: gl.getUniformLocation(shaderProgram, 'uModelViewMatrix'),
-    },
-  };
+  const programInfo = buildProgramInfoObj(gl, shaderProgram)
 
   // Here's where we call the routine that builds all the
   // objects we'll be drawing.
