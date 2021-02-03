@@ -1,5 +1,23 @@
-import {glMatrix, mat2, mat2d, mat3, mat4, quat, quat2, vec2, vec3, vec4} from 'gl-matrix'
+import { mat4 } from 'gl-matrix'
 
+// Vertex shader program
+const vsSource = `
+attribute vec4 aVertexPosition;
+
+uniform mat4 uModelViewMatrix;
+uniform mat4 uProjectionMatrix;
+
+void main() {
+    gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+}
+`
+
+// Fragment shader program
+const fsSource = `
+void main() {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+}
+`
 
 // creates a shader of the given type, uploads the source and compiles it.
 function loadShader(gl, type, source) {
@@ -163,6 +181,8 @@ gl.uniformMatrix4fv(
 }
 
 export {
+    vsSource,
+    fsSource,
     initShaderProgram,
     initBuffers,
     drawScene,
